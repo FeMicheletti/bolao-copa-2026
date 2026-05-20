@@ -1,0 +1,130 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum PoolRole {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+enum MatchStatus {
+  SCHEDULED
+  TIMED
+  IN_PLAY
+  PAUSED
+  FINISHED
+  POSTPONED
+  CANCELLED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  avatarUrl    String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  pools       Pool[]       @relation("PoolOwner")
+  memberships PoolMember[]
+  predictions Prediction[]
+  scores      Score[]
+}
+
+model Pool {
+  id         String   @id @default(cuid())
+  name       String
+  slug       String   @unique
+  inviteCode String   @unique
+  ownerId    String
+  isPrivate  Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  owner       User         @relation("PoolOwner", fields: [ownerId], references: [id])
+  members     PoolMember[]
+  predictions Prediction[]
+  scores      Score[]
+}
+
+model PoolMember {
+  id       String   @id @default(cuid())
+  poolId   String
+  userId   String
+  role     PoolRole @default(MEMBER)
+  joinedAt DateTime @default(now())
+
+  pool Pool @relation(fields: [poolId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([poolId, userId])
+}
+
+model Match {
+  id           String      @id @default(cuid())
+  externalId   String      @unique
+  competition  String      @default("WC")
+  homeTeam     String
+  awayTeam     String
+  homeTeamCode String?
+  awayTeamCode String?
+  utcDate      DateTime
+  status       MatchStatus @default(SCHEDULED)
+  homeScore    Int?
+  awayScore    Int?
+  winner       String?
+  lastSyncedAt DateTime?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  predictions Prediction[]
+}
+
+model Prediction {
+  id                 String   @id @default(cuid())
+  poolId             String
+  matchId            String
+  userId             String
+  predictedHomeScore Int
+  predictedAwayScore Int
+  points             Int      @default(0)
+  lockedAt           DateTime?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  pool  Pool  @relation(fields: [poolId], references: [id])
+  match Match @relation(fields: [matchId], references: [id])
+  user  User  @relation(fields: [userId], references: [id])
+
+  @@unique([poolId, matchId, userId])
+}
+
+model Score {
+  id             String   @id @default(cuid())
+  poolId         String
+  userId         String
+  totalPoints    Int      @default(0)
+  exactScores    Int      @default(0)
+  correctResults Int      @default(0)
+  updatedAt      DateTime @updatedAt
+
+  pool Pool @relation(fields: [poolId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([poolId, userId])
+}
+
+model SyncLog {
+  id         String    @id @default(cuid())
+  source     String
+  status     String
+  message    String?
+  startedAt  DateTime  @default(now())
+  finishedAt DateTime?
+}
