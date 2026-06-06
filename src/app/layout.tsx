@@ -1,15 +1,20 @@
+import type { Metadata } from "next";
 import "./globals.css";
-import { Geist } from "next/font/google";
-import { cn } from "@/lib/utils";
+import { AppHeader } from "@/components/app-header";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
-
+export const metadata: Metadata = {
+	title: "Bolão Copa",
+	description: "Bolão simples para a Copa",
+};
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
 	return (
-		<html lang="pt-BR" className={cn("font-sans", geist.variable)}>
+		<html lang="pt-BR">
 			<body>
-				{children}
+				<AppHeader />
+				<main className="mx-auto max-w-6xl px-4 py-8">
+					{children}
+				</main>
 			</body>
 		</html>
 	);
