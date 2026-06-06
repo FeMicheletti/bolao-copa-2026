@@ -154,7 +154,7 @@ export function PoolsClient({ userName }: PoolsClientProps) {
             <input
               value={poolName}
               onChange={(event) => setPoolName(event.target.value)}
-              placeholder="Ex: Bolão dos cria"
+              placeholder="Ex: Bolão dos Amigos"
               className="rounded-2xl border border-white/10 bg-black/25 px-4 py-3 text-sm outline-none transition placeholder:text-muted-foreground focus:border-primary/70 focus:ring-2 focus:ring-primary/20"
             />
 

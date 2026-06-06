@@ -10,7 +10,7 @@ export async function GET(_: Request, { params }: Params) {
 	const user = await getCurrentUser();
 
 	if (!user) {
-		return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
+		return NextResponse.json({ ok: false, error: "Não autorizado" }, { status: 401 });
 	}
 
 	try {
@@ -19,6 +19,6 @@ export async function GET(_: Request, { params }: Params) {
 
 		return NextResponse.json({ ok: true, predictions });
 	} catch {
-		return NextResponse.json({ ok: false, error: "Could not list predictions" }, { status: 400 });
+		return NextResponse.json({ ok: false, error: "Não foi possível listar as previsões" }, { status: 400 });
 	}
 }

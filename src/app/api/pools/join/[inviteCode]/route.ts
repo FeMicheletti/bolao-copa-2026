@@ -11,7 +11,7 @@ type Params = {
 export async function POST(_: Request, { params }: Params) {
 	const user = await getCurrentUser();
 
-	if (!user) return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
+	if (!user) return NextResponse.json({ ok: false, error: "Não autorizado" }, { status: 401 });
 
 	try {
 		const { inviteCode } = await params;
@@ -20,8 +20,8 @@ export async function POST(_: Request, { params }: Params) {
 
 		return NextResponse.json({ ok: true, pool });
 	} catch (error) {
-		if (error instanceof Error && error.message === "ALREADY_MEMBER") return NextResponse.json({ ok: false, error: "You are already a member of this pool" }, { status: 409 });
+		if (error instanceof Error && error.message === "ALREADY_MEMBER") return NextResponse.json({ ok: false, error: "Você já é membro deste grupo" }, { status: 409 });
 
-		return NextResponse.json({ ok: false, error: "Invalid invite code" }, { status: 400 });
+		return NextResponse.json({ ok: false, error: "Código de convite inválido" }, { status: 400 });
 	}
 }

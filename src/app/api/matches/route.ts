@@ -6,7 +6,7 @@ export async function GET() {
 	const user = await getCurrentUser();
 
 	if (!user) {
-		return NextResponse.json({ ok: false, error: "Unauthorized" },{ status: 401 });
+		return NextResponse.json({ ok: false, error: "Não autorizado" },{ status: 401 });
 	}
 
 	const matches = await listMatches();

@@ -58,7 +58,7 @@ export async function GET(_: NextRequest, { params }: Params) {
 	const user = await getCurrentUser();
 
 	if (!user) {
-		return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
+		return NextResponse.json({ ok: false, error: "Não autorizado" }, { status: 401 });
 	}
 
 	try {
@@ -68,9 +68,9 @@ export async function GET(_: NextRequest, { params }: Params) {
 		return NextResponse.json({ ok: true, predictions });
 	} catch (error) {
 		if (error instanceof Error && error.message === "PREDICTIONS_HIDDEN") {
-			return NextResponse.json({ ok: false, error: "Predictions are hidden until match starts" }, { status: 403 });
+			return NextResponse.json({ ok: false, error: "Predições estão ocultas até o início do jogo" }, { status: 403 });
 		}
 
-		return NextResponse.json({ ok: false, error: "Could not list predictions" }, { status: 400 });
+		return NextResponse.json({ ok: false, error: "Não foi possível listar as previsões" }, { status: 400 });
 	}
 }

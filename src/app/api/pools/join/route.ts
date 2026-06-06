@@ -19,9 +19,9 @@ export async function POST(request: NextRequest) {
 		return NextResponse.json({ ok: true, pool });
 	} catch (error) {
 		if (error instanceof Error && error.message === "ALREADY_MEMBER") {
-			return NextResponse.json({ ok: false, error: "You are already a member of this pool" }, { status: 409 });
+			return NextResponse.json({ ok: false, error: "Você já é membro deste grupo" }, { status: 409 });
 		}
 
-		return NextResponse.json({ ok: false, error: "Invalid invite code" }, { status: 400 });
+		return NextResponse.json({ ok: false, error: "Código de convite inválido" }, { status: 400 });
 	}
 }

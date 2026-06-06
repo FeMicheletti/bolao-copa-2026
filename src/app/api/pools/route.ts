@@ -7,7 +7,7 @@ export async function GET() {
 	const user = await getCurrentUser();
 
 	if (!user) {
-		return NextResponse.json( { ok: false, error: "Unauthorized" }, { status: 401 });
+		return NextResponse.json( { ok: false, error: "Não autorizado" }, { status: 401 });
 	}
 
 	const pools = await listUserPools(user.id);
@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
 	const user = await getCurrentUser();
 
 	if (!user) {
-		return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
+		return NextResponse.json({ ok: false, error: "Não autorizado" }, { status: 401 });
 	}
 
 	try {
@@ -30,6 +30,6 @@ export async function POST(request: NextRequest) {
 
 		return NextResponse.json({ ok: true, pool }, { status: 201 });
 	} catch {
-		return NextResponse.json({ ok: false, error: "Invalid request"}, { status: 400 });
+		return NextResponse.json({ ok: false, error: "Solicitação inválida"}, { status: 400 });
 	}
 }

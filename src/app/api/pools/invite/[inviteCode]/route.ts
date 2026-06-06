@@ -15,6 +15,6 @@ export async function GET(_: Request, { params }: Params) {
 
 		return NextResponse.json({ ok: true, pool });
 	} catch {
-		return NextResponse.json({ ok: false, error: "Invalid invite code" }, { status: 404 });
+		return NextResponse.json({ ok: false, error: "Código de convite inválido" }, { status: 404 });
 	}
 }

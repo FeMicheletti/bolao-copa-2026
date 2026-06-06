@@ -19,7 +19,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
 	const token = authHeader?.replace("Bearer ", "");
 
 	if (!process.env.CRON_SECRET || token !== process.env.CRON_SECRET) {
-		return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
+		return NextResponse.json({ ok: false, error: "Não autorizado" }, { status: 401 });
 	}
 
 	try {
@@ -30,7 +30,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
 		const awayScore = Number(body.awayScore);
 
 		if (Number.isNaN(homeScore) ||Number.isNaN(awayScore) ||homeScore < 0 ||awayScore < 0) {
-			return NextResponse.json({ ok: false, error: "Invalid score" }, { status: 400 });
+			return NextResponse.json({ ok: false, error: "Pontuação inválida" }, { status: 400 });
 		}
 
 		const match = await prisma.match.update({
@@ -50,6 +50,6 @@ export async function PATCH(request: NextRequest, { params }: Params) {
 
 		return NextResponse.json({ ok: true, match, rankingResult });
 	} catch (error) {
-		return NextResponse.json({ ok: false, error: "Could not update match result", details: error instanceof Error ? error.message : "Unknown error"}, { status: 500 });
+		return NextResponse.json({ ok: false, error: "Não foi possível atualizar o resultado do jogo", details: error instanceof Error ? error.message : "Erro desconhecido"}, { status: 500 });
 	}
 }

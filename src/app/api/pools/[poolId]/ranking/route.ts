@@ -11,7 +11,7 @@ type Params = {
 export async function GET(_: Request, { params }: Params) {
 	const user = await getCurrentUser();
 
-	if (!user) return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
+	if (!user) return NextResponse.json({ ok: false, error: "Não autorizado" }, { status: 401 });
 
 	try {
 		const { poolId } = await params;
@@ -19,6 +19,6 @@ export async function GET(_: Request, { params }: Params) {
 
 		return NextResponse.json({ ok: true, ranking });
 	} catch {
-		return NextResponse.json({ ok: false, error: "Could not load ranking" }, { status: 400 });
+		return NextResponse.json({ ok: false, error: "Não foi possível carregar o ranking" }, { status: 400 });
 	}
 }

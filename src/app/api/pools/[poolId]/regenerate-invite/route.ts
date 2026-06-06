@@ -11,7 +11,7 @@ type Params = {
 export async function POST(_: Request, { params }: Params) {
 	const user = await getCurrentUser();
 
-	if (!user) return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
+	if (!user) return NextResponse.json({ ok: false, error: "Não autorizado" }, { status: 401 });
 
 	try {
 		const { poolId } = await params;
@@ -20,6 +20,6 @@ export async function POST(_: Request, { params }: Params) {
 
 		return NextResponse.json({ ok: true, pool });
 	} catch {
-		return NextResponse.json({ ok: false, error: "Forbidden" }, { status: 403 });
+		return NextResponse.json({ ok: false, error: "Acesso negado" }, { status: 403 });
 	}
 }

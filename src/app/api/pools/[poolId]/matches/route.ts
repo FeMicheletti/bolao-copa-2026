@@ -11,7 +11,7 @@ type Params={
 export async function GET(_:Request, {params}:Params){
 	const user = await getCurrentUser();
 
-	if (!user) return NextResponse.json({ ok:false, error:"Unauthorized" }, { status:401 });
+	if (!user) return NextResponse.json({ ok:false, error:"Não autorizado" }, { status:401 });
 
 	try {
 		const {poolId} = await params;
@@ -23,8 +23,8 @@ export async function GET(_:Request, {params}:Params){
 
 		return NextResponse.json({ ok:true, matches });
 	} catch(error) {
-		if(error instanceof Error && error.message==="NOT_POOL_MEMBER") return NextResponse.json({ ok:false, error:"Not member" },{ status:403 });
+		if(error instanceof Error && error.message==="NOT_POOL_MEMBER") return NextResponse.json({ ok:false, error:"Não é membro do grupo" },{ status:403 });
 
-		return NextResponse.json({ ok:false, error:"Could not load matches"}, { status:500 });
+		return NextResponse.json({ ok:false, error:"Não foi possível carregar os jogos"}, { status:500 });
 	}
 }
