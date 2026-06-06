@@ -184,7 +184,7 @@ export function PoolDetailsClient({ poolId, userName }: PoolDetailsClientProps) 
 	}
 
 	return (
-		<section className="grid gap-6">
+		<section className="grid min-w-0 max-w-full gap-6 overflow-x-hidden">
 			<div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
 				<div className="min-w-0">
 					<Link href="/pools" className="text-sm text-muted-foreground transition hover:text-primary">
@@ -205,19 +205,21 @@ export function PoolDetailsClient({ poolId, userName }: PoolDetailsClientProps) 
 					</p>
 				</div>
 
-				<div className="grid gap-2 sm:flex">
+				<div className="grid min-w-0 max-w-full gap-2 sm:flex sm:flex-wrap sm:justify-end">
 					<button
 						type="button"
 						onClick={copyInviteCode}
-						className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold transition hover:border-primary/50 hover:text-primary cursor-pointer"
+						className="min-w-0 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold transition hover:border-primary/50 hover:text-primary cursor-pointer"
 					>
-						Código: {pool.inviteCode}
+						<span className="block max-w-full truncate">
+							Código: {pool.inviteCode}
+						</span>
 					</button>
 
 					<button
 						type="button"
 						onClick={copyInviteLink}
-						className="rounded-full border border-primary/40 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary transition hover:border-primary hover:bg-primary/20 cursor-pointer"
+						className="min-w-0 rounded-full border border-primary/40 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary transition hover:border-primary hover:bg-primary/20 cursor-pointer"
 					>
 						Copiar link
 					</button>
@@ -252,11 +254,11 @@ export function PoolDetailsClient({ poolId, userName }: PoolDetailsClientProps) 
 			</div>
 
 			<div className="sticky top-16.25 z-30 -mx-4 border-y border-white/10 bg-background/80 px-4 py-3 backdrop-blur-xl sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:p-0 sm:backdrop-blur-none">
-				<div className="grid grid-cols-[1fr_1fr_auto] gap-2 rounded-2xl bg-white/5 p-1">
+				<div className="grid min-w-0 grid-cols-[minmax(0,1fr)_minmax(0,1fr)_2.25rem] gap-2 rounded-2xl bg-white/5 p-1">
 					<button
 						type="button"
 						onClick={() => setActiveTab("matches")}
-						className={`rounded-xl px-4 py-2 text-sm font-bold transition cursor-pointer ${
+						className={`min-w-0 rounded-xl px-4 py-2 text-sm font-bold transition cursor-pointer ${
 						activeTab === "matches"
 							? "bg-primary text-primary-foreground shadow-[0_0_24px_rgba(176,38,255,0.25)]"
 							: "text-muted-foreground hover:text-foreground"
@@ -268,7 +270,7 @@ export function PoolDetailsClient({ poolId, userName }: PoolDetailsClientProps) 
 					<button
 						type="button"
 						onClick={() => setActiveTab("ranking")}
-						className={`rounded-xl px-4 py-2 text-sm font-bold transition cursor-pointer ${
+						className={`min-w-0 rounded-xl px-4 py-2 text-sm font-bold transition cursor-pointer ${
 						activeTab === "ranking"
 							? "bg-primary text-primary-foreground shadow-[0_0_24px_rgba(176,38,255,0.25)]"
 							: "text-muted-foreground hover:text-foreground"
@@ -284,7 +286,7 @@ export function PoolDetailsClient({ poolId, userName }: PoolDetailsClientProps) 
 			</div>
 
 			{activeTab === "matches" ? (
-				<div className="grid gap-4 lg:grid-cols-2">
+				<div className="grid min-w-0 max-w-full gap-4 lg:grid-cols-2">
 					{matches.length === 0 ? (
 						<div className="glass-panel rounded-3xl p-8 text-center lg:col-span-2">
 							<p className="font-bold">Nenhum jogo sincronizado ainda.</p>
@@ -293,7 +295,7 @@ export function PoolDetailsClient({ poolId, userName }: PoolDetailsClientProps) 
 							</p>
 						</div>) : 
 					(matches.map((match) => (
-						<button key={match.id} type="button" onClick={() => openMatch(match)} className="text-left cursor-pointer">
+						<button key={match.id} type="button" onClick={() => openMatch(match)} className="min-w-0 max-w-full text-left cursor-pointer">
 							<MatchCard
 								stage="Copa 2026"
 								status={match.status}
@@ -345,8 +347,8 @@ export function PoolDetailsClient({ poolId, userName }: PoolDetailsClientProps) 
 			)}
 
 			{selectedMatch && (
-				<div className="fixed inset-0 z-100 grid place-items-end bg-black/70 p-0 backdrop-blur-sm sm:place-items-center sm:p-4">
-					<div className="max-h-[92vh] w-full overflow-y-auto rounded-t-3xl border border-white/10 bg-background p-5 shadow-2xl sm:max-w-md sm:rounded-3xl">
+				<div className="fixed inset-0 z-100 grid place-items-end overflow-hidden bg-black/70 p-0 backdrop-blur-sm sm:place-items-center sm:p-4">
+					<div className="max-h-[92vh] w-full max-w-full overflow-y-auto rounded-t-3xl border border-white/10 bg-background p-5 shadow-2xl sm:max-w-md sm:rounded-3xl">
 						<div className="flex items-start justify-between gap-4">
 							<div>
 								<p className="neon-text text-xs font-bold uppercase tracking-[0.24em]">

@@ -135,9 +135,14 @@
     * { 
         @apply border-border outline-ring/50; 
     }
+	html, body {
+		max-width: 100%;
+		overflow-x: hidden;
+	}
     body {
 		@apply bg-background text-foreground;
 		min-height: 100vh;
+		overflow-x: hidden;
 		background:
 			radial-gradient(circle at top right, rgba(176, 38, 255, 0.18), transparent 34rem),
 			radial-gradient(circle at bottom left, rgba(88, 28, 135, 0.2), transparent 30rem),

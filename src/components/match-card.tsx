@@ -22,7 +22,7 @@ export function MatchCard({ stage, status, homeTeam, awayTeam, homeFlag = "ğŸ³ï
 	const hasResult = homeScore !== null && homeScore !== undefined && awayScore !== null && awayScore !== undefined;
 
 	return (
-		<article className="neon-card rounded-2xl p-5">
+		<article className="neon-card min-w-0 max-w-full overflow-hidden rounded-2xl p-4 sm:p-5">
 			<div className="flex items-center justify-between gap-3 text-xs uppercase tracking-[0.18em] text-muted-foreground">
 				<span>
 					{stage}
@@ -32,19 +32,19 @@ export function MatchCard({ stage, status, homeTeam, awayTeam, homeFlag = "ğŸ³ï
 				</span>
 			</div>
 
-			<div className="mt-6 grid grid-cols-[1fr_auto_1fr] items-center gap-2 sm:gap-4">
-				<div className="flex items-center gap-2">
+			<div className="mt-6 grid min-w-0 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 sm:gap-4">
+				<div className="flex min-w-0 items-center gap-2">
 					<span className="text-2xl sm:text-3xl">
 						{homeFlag}
 					</span>
-					<span className="truncate text-sm font-semibold sm:text-lg">
+					<span className="min-w-0 truncate text-sm font-semibold sm:text-lg">
 						{homeTeam}
 					</span>
 				</div>
 
-				<div className="min-w-14 text-center sm:min-w-20">
+				<div className="min-w-12 text-center sm:min-w-20">
 					{hasResult ? (
-						<div className="text-xl font-black sm:text-2xl">
+						<div className="whitespace-nowrap text-lg font-black sm:text-2xl">
 							{homeScore} 
 							<span className="neon-text">
 								x
@@ -55,8 +55,8 @@ export function MatchCard({ stage, status, homeTeam, awayTeam, homeFlag = "ğŸ³ï
 					)}
 				</div>
 
-				<div className="flex items-center justify-end gap-2">
-					<span className="truncate text-right text-lg font-semibold">
+				<div className="flex min-w-0 items-center justify-end gap-2">
+					<span className="min-w-0 truncate text-right text-sm font-semibold sm:text-lg">
 						{awayTeam}
 					</span>
 					<span className="text-3xl">
