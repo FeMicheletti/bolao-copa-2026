@@ -1,5 +1,13 @@
 import { AuthCard } from "@/components/auth-card";
 
-export default function RegisterPage() {
-	return <AuthCard mode="register" />;
+type RegisterPageProps = {
+	searchParams: Promise<{
+		redirect?: string;
+	}>;
+};
+
+export default async function RegisterPage({ searchParams }: RegisterPageProps) {
+	const { redirect } = await searchParams;
+
+	return <AuthCard mode="register" redirectTo={redirect || "/pools"} />;
 }

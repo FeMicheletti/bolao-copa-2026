@@ -3,18 +3,18 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { apiFetch } from "@/lib/api";
 
 type AuthCardProps = {
 	mode: "login" | "register";
+	redirectTo?: string;
 };
 
-export function AuthCard({ mode }: AuthCardProps) {
+export function AuthCard({ mode, redirectTo = "/pools"  }: AuthCardProps) {
 	const router = useRouter();
-	const searchParams = useSearchParams();
-	const redirectTo = searchParams.get("redirect") || "/pools";
 	const isRegister = mode === "register";
+
+	const redirectQuery = redirectTo ? `?redirect=${encodeURIComponent(redirectTo)}` : "";
 
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
@@ -32,7 +32,7 @@ export function AuthCard({ mode }: AuthCardProps) {
 			await apiFetch(isRegister ? "/api/auth/register" : "/api/auth/login", {
 				method: "POST",
 				body: JSON.stringify(
-					isRegister ? { name, email, password } : { email, password }
+				isRegister ? { name, email, password } : { email, password }
 				),
 			});
 
