@@ -121,17 +121,25 @@ export async function listMatchPredictions(poolId: string,matchId: string,userId
 	return prisma.prediction.findMany({
 		where: {
 			poolId,
-			matchId
+			matchId,
 		},
-		orderBy: {
-			createdAt: "asc"
-		},
-		include: {
+		orderBy: [ { points: "desc" }, { createdAt: "asc" } ],
+		select: {
+			id: true,
+			poolId: true,
+			matchId: true,
+			userId: true,
+			predictedHomeScore: true,
+			predictedAwayScore: true,
+			points: true,
+			pointsReason: true,
+			createdAt: true,
+			updatedAt: true,
 			user: {
 				select: {
 					id: true,
 					name: true,
-					avatarUrl: true
+					avatarUrl: true,
 				},
 			},
 		},

@@ -45,7 +45,7 @@ export async function listPoolMatches(poolId: string, userId: string) {
 	return matches.map(match=>{
 		const prediction = match.predictions[0];
 
-		const canPredict = match.utcDate>now && !["IN_PLAY", "PAUSED", "FINISHED", "POSTPONED", "CANCELLED"].includes(match.status);
+		const canPredict = match.utcDate>now && !["IN_PLAY", "PAUSED", "FINISHED", "POSTPONED", "CANCELLED"].includes(match.status) && match.homeTeam !== "A definir" && match.awayTeam !== "A definir";
 
 		const canSeePredictions = match.utcDate<=now || ["IN_PLAY", "PAUSED", "FINISHED"].includes(match.status);
 

@@ -26,6 +26,6 @@ export async function POST(request: NextRequest) {
 			return NextResponse.json({ ok: false, error: "Email já existente." }, { status: 409 });
 		}
 
-		return NextResponse.json({ ok: false, error: "Invalid request" }, { status: 400 });
+		return NextResponse.json({ ok: false, error: "Requisição inválida" }, { status: 400 });
 	}
 }

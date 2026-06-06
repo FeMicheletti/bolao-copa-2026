@@ -2,6 +2,7 @@ import { MatchStatus } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { getCompetitionMatches } from "@/lib/football-data";
 import type { FootballDataMatchStatus } from "@/types/football-data";
+import { getCountryName } from "@/lib/countries";
 
 function mapMatchStatus(status: FootballDataMatchStatus): MatchStatus {
 	const allowedStatuses: MatchStatus[] = [
@@ -29,8 +30,8 @@ function normalizeWinner(winner: string | null) {
 	return null;
 }
 
-function normalizeTeamName(name?: string | null) {
-	return name?.trim() || "A definir";
+function normalizeTeamName(code?: string | null, name?: string | null) {
+	return getCountryName({ code, fallback: name });
 }
 
 function normalizeTeamCode(code?: string | null) {
@@ -74,8 +75,8 @@ export async function syncWorldCupMatches() {
 				create: {
 					externalId: String(match.id),
 					competition: response.competition.code,
-					homeTeam: normalizeTeamName(match.homeTeam?.name),
-					awayTeam: normalizeTeamName(match.awayTeam?.name),
+					homeTeam: normalizeTeamName(match.homeTeam?.tla, match.homeTeam?.name),
+					awayTeam: normalizeTeamName(match.awayTeam?.tla, match.awayTeam?.name),
 					homeTeamCode: normalizeTeamCode(match.homeTeam?.tla),
 					awayTeamCode: normalizeTeamCode(match.awayTeam?.tla),
 					utcDate: new Date(match.utcDate),
@@ -86,8 +87,8 @@ export async function syncWorldCupMatches() {
 					lastSyncedAt: new Date(),
 				},
 				update: {
-					homeTeam: normalizeTeamName(match.homeTeam?.name),
-					awayTeam: normalizeTeamName(match.awayTeam?.name),
+					homeTeam: normalizeTeamName(match.homeTeam?.tla, match.homeTeam?.name),
+					awayTeam: normalizeTeamName(match.awayTeam?.tla, match.awayTeam?.name),
 					homeTeamCode: normalizeTeamCode(match.homeTeam?.tla),
 					awayTeamCode: normalizeTeamCode(match.awayTeam?.tla),
 					utcDate: new Date(match.utcDate),

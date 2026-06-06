@@ -22,6 +22,6 @@ export async function POST(request: NextRequest) {
 
 		return response;
 	} catch {
-		return NextResponse.json({ ok: false, error: "Invalid email or password" }, { status: 401 });
+		return NextResponse.json({ ok: false, error: "Email ou senha inválidos" }, { status: 401 });
 	}
 }
