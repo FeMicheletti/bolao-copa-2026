@@ -105,7 +105,7 @@ export function AuthCard({ mode, redirectTo = "/pools"  }: AuthCardProps) {
 						</div>
 					)}
 
-					<button disabled={isLoading} className="mt-2 rounded-2xl bg-primary px-5 py-3 font-bold text-primary-foreground shadow-[0_0_32px_rgba(176,38,255,0.35)] transition hover:scale-[1.01] hover:shadow-[0_0_44px_rgba(217,70,239,0.45)] disabled:cursor-not-allowed disabled:opacity-60">
+					<button disabled={isLoading} className="mt-2 rounded-2xl bg-primary px-5 py-3 font-bold text-primary-foreground shadow-[0_0_32px_rgba(176,38,255,0.35)] transition hover:scale-[1.01] hover:shadow-[0_0_44px_rgba(217,70,239,0.45)] disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer">
 						{isLoading ? "Carregando..." : isRegister ? "Criar conta" : "Entrar"}
 					</button>
 				</form>
