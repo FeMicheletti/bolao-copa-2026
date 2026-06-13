@@ -1,12 +1,13 @@
 import { getMatchStatus } from "@/lib/matchStatus";
+import { TeamFlag } from "./team-flag";
 
 type MatchCardProps = {
 	stage: string;
 	status: string;
 	homeTeam: string;
 	awayTeam: string;
-	homeFlag?: string;
-	awayFlag?: string;
+	homeFlag?: string | null;
+	awayFlag?: string | null;
 	homeScore?: number | null;
 	awayScore?: number | null;
 	prediction?: {
@@ -35,7 +36,7 @@ export function MatchCard({ stage, status, homeTeam, awayTeam, homeFlag = "üè≥Ô
 			<div className="mt-6 grid min-w-0 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 sm:gap-4">
 				<div className="flex min-w-0 items-center gap-2">
 					<span className="text-2xl sm:text-3xl">
-						{homeFlag}
+						<TeamFlag src={homeFlag} alt={homeTeam}/>
 					</span>
 					<span className="min-w-0 truncate text-sm font-semibold sm:text-lg">
 						{homeTeam}
@@ -59,8 +60,8 @@ export function MatchCard({ stage, status, homeTeam, awayTeam, homeFlag = "üè≥Ô
 					<span className="min-w-0 truncate text-right text-sm font-semibold sm:text-lg">
 						{awayTeam}
 					</span>
-					<span className="text-3xl">
-						{awayFlag}
+					<span className="text-2xl sm:text-3xl">
+						<TeamFlag src={awayFlag} alt={awayTeam}/>
 					</span>
 				</div>
 			</div>

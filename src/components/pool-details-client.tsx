@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { apiFetch } from "@/lib/api";
-import { getFlagByCode } from "@/lib/countries";
+import { getCountryFlagUrl } from "@/lib/countries";
 import { MatchCard } from "@/components/match-card";
 import { ScoringInfoButton } from "@/components/scoring-info-button";
 import type { MatchPrediction, PoolDetails, PoolMatch, RankingItem } from "@/types/api";
@@ -301,8 +301,8 @@ export function PoolDetailsClient({ poolId, userName }: PoolDetailsClientProps) 
 								status={match.status}
 								homeTeam={match.homeTeam}
 								awayTeam={match.awayTeam}
-								homeFlag={getFlagByCode(match.homeTeamCode)}
-								awayFlag={getFlagByCode(match.awayTeamCode)}
+								homeFlag={getCountryFlagUrl(match.homeTeamCode)}
+								awayFlag={getCountryFlagUrl(match.awayTeamCode)}
 								homeScore={match.result.home}
 								awayScore={match.result.away}
 								prediction={match.prediction}
@@ -398,7 +398,7 @@ export function PoolDetailsClient({ poolId, userName }: PoolDetailsClientProps) 
 								<div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
 									<div className="grid gap-2">
 										<label className="truncate text-sm font-semibold">
-											{selectedMatch.homeTeam} {getFlagByCode(selectedMatch.homeTeamCode)}
+											{selectedMatch.homeTeam} {getCountryFlagUrl(selectedMatch.homeTeamCode)}
 										</label>
 
 										<input
@@ -415,7 +415,7 @@ export function PoolDetailsClient({ poolId, userName }: PoolDetailsClientProps) 
 
 									<div className="grid gap-2">
 										<label className="truncate text-right text-sm font-semibold">
-											{getFlagByCode(selectedMatch.awayTeamCode)} {selectedMatch.awayTeam}
+											{getCountryFlagUrl(selectedMatch.awayTeamCode)} {selectedMatch.awayTeam}
 										</label>
 
 										<input
