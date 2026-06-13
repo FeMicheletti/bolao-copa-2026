@@ -44,7 +44,8 @@ const countryMap: Record<string, CountryInfo> = {
 	BIH: { name: "Bósnia e Herzegovina", iso2: "ba" },
 	MAR: { name: "Marrocos", iso2: "ma" },
 	RSA: { name: "África do Sul", iso2: "za" },
-	CUR: { name: "Curaçao", customFlagUrl: "https://flagcdn.com/cw.svg" },
+	CUR: { name: "Curaçao", customFlagUrl: "https://flagcdn.com/cw.svg" }, // Duplicado pois existe chance de aparecer com CUR ou CUW
+	CUW: { name: "Curaçao", customFlagUrl: "https://flagcdn.com/cw.svg" },
 	JPN: { name: "Japão", iso2: "jp" },
 	PAR: { name: "Paraguai", iso2: "py" },
 	SEN: { name: "Senegal", iso2: "sn" },
