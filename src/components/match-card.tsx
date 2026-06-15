@@ -82,7 +82,7 @@ export function MatchCard({ stage, status, homeTeam, awayTeam, homeFlag = "ğŸ³ï
 
 			<div className="mt-5 rounded-xl bg-black/20 px-4 py-3 text-sm">
 				{pointsReason ? (
-					<p className={points > 0 ? "font-semibold text-primary" : "text-muted-foreground"}>
+					<p className={"font-semibold text-primary"}>
 						{points > 0 ? `+${points} ${pointsReason}` : pointsReason}
 					</p>) : canPredict ? (
 					<p className="text-muted-foreground">Clique para fazer seu palpite</p>) : (
