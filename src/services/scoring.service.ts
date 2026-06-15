@@ -123,13 +123,15 @@ export async function recalculatePoolRanking(poolId: string) {
 			awayScore: prediction.match.awayScore,
 		});
 
+		const pointsReason = result.points === 0 ? "Não pontuou" : result.reason;
+
 		await prisma.prediction.update({
 			where: {
 				id: prediction.id,
 			},
 			data: {
 				points: Math.min(result.points, 25),
-				pointsReason: result.reason,
+				pointsReason,
 			},
 		});
 

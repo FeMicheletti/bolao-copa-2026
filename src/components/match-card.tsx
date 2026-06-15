@@ -35,10 +35,10 @@ export function MatchCard({ stage, status, homeTeam, awayTeam, homeFlag = "ğŸ³ï
 
 			<div className="mt-6 grid min-w-0 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 sm:gap-4">
 				<div className="flex min-w-0 items-center gap-2">
-					<span className="text-2xl sm:text-3xl">
+					<span className="shrink-0 text-2xl sm:text-3xl">
 						<TeamFlag src={homeFlag} alt={homeTeam}/>
 					</span>
-					<span className="min-w-0 truncate text-sm font-semibold sm:text-lg">
+					<span className="min-w-0 flex-1 truncate text-sm font-semibold sm:text-lg">
 						{homeTeam}
 					</span>
 				</div>
@@ -57,10 +57,10 @@ export function MatchCard({ stage, status, homeTeam, awayTeam, homeFlag = "ğŸ³ï
 				</div>
 
 				<div className="flex min-w-0 items-center justify-end gap-2">
-					<span className="min-w-0 truncate text-right text-sm font-semibold sm:text-lg">
+					<span className="min-w-0 flex-1 truncate text-right text-sm font-semibold sm:text-lg">
 						{awayTeam}
 					</span>
-					<span className="text-2xl sm:text-3xl">
+					<span className="shrink-0 text-2xl sm:text-3xl">
 						<TeamFlag src={awayFlag} alt={awayTeam}/>
 					</span>
 				</div>
@@ -81,11 +81,10 @@ export function MatchCard({ stage, status, homeTeam, awayTeam, homeFlag = "ğŸ³ï
 			</div>
 
 			<div className="mt-5 rounded-xl bg-black/20 px-4 py-3 text-sm">
-				{points > 0 ? (
-					<p className="font-semibold text-primary">
-						+{points} {pointsReason}
-					</p>) : 
-				canPredict ? (
+				{pointsReason ? (
+					<p className={points > 0 ? "font-semibold text-primary" : "text-muted-foreground"}>
+						{points > 0 ? `+${points} ${pointsReason}` : pointsReason}
+					</p>) : canPredict ? (
 					<p className="text-muted-foreground">Clique para fazer seu palpite</p>) : (
 					<p className="text-muted-foreground">Aguardando resultado</p>
 				)}
