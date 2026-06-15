@@ -2,6 +2,7 @@ import Link from "next/link";
 import { MatchCard } from "@/components/match-card";
 import { getCurrentUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { getCountryFlagUrl } from "@/lib/countries";
 
 export default async function HomePage() {
 	const user = await getCurrentUser();
@@ -41,8 +42,8 @@ export default async function HomePage() {
 						status="FINISHED"
 						homeTeam="Brasil"
 						awayTeam="Japão"
-						homeFlag="🇧🇷"
-						awayFlag="🇯🇵"
+						homeFlag={getCountryFlagUrl("BRA")}
+						awayFlag={getCountryFlagUrl("JPN")}
 						homeScore={2}
 						awayScore={1}
 						prediction={{ home: 2, away: 0 }}
@@ -55,8 +56,8 @@ export default async function HomePage() {
 						status="SCHEDULED"
 						homeTeam="Argentina"
 						awayTeam="França"
-						homeFlag="🇦🇷"
-						awayFlag="🇫🇷"
+						homeFlag={getCountryFlagUrl("ARG")}
+						awayFlag={getCountryFlagUrl("FRA")}
 						prediction={{ home: 1, away: 1 }}
 						canPredict
 					/>

@@ -172,6 +172,7 @@ export async function recalculatePoolRanking(poolId: string) {
 				"Acertou o empate",
 				"Acertou o vencedor e os gols do perdedor",
 				"Acertou o vencedor",
+				"Não pontuou",
 			].includes(prediction.pointsReason ?? "")).length;
 
 		await prisma.score.upsert({

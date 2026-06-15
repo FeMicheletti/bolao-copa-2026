@@ -8,6 +8,7 @@ import { MatchCard } from "@/components/match-card";
 import { ScoringInfoButton } from "@/components/scoring-info-button";
 import type { MatchPrediction, PoolDetails, PoolMatch, RankingItem } from "@/types/api";
 import { getMatchStatus } from "@/lib/matchStatus";
+import { TeamFlag } from "./team-flag";
 
 type PoolResponse = {
 	ok: boolean;
@@ -397,8 +398,9 @@ export function PoolDetailsClient({ poolId, userName }: PoolDetailsClientProps) 
 							<form onSubmit={handleSavePrediction} className="mt-6 grid gap-5">
 								<div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
 									<div className="grid gap-2">
-										<label className="truncate text-sm font-semibold">
-											{selectedMatch.homeTeam} {getCountryFlagUrl(selectedMatch.homeTeamCode)}
+										<label className="flex min-w-0 items-center gap-2 truncate text-sm font-semibold">
+											<TeamFlag src={getCountryFlagUrl(selectedMatch.homeTeamCode)} alt={selectedMatch.homeTeam} className="size-5 shrink-0 sm:size-6"/>
+											<span className="truncate">{selectedMatch.homeTeam}</span>
 										</label>
 
 										<input
@@ -414,8 +416,9 @@ export function PoolDetailsClient({ poolId, userName }: PoolDetailsClientProps) 
 									<span className="neon-text mt-7 text-2xl font-black">x</span>
 
 									<div className="grid gap-2">
-										<label className="truncate text-right text-sm font-semibold">
-											{getCountryFlagUrl(selectedMatch.awayTeamCode)} {selectedMatch.awayTeam}
+										<label className="flex min-w-0 items-center justify-end gap-2 truncate text-right text-sm font-semibold">
+											<span className="truncate">{selectedMatch.awayTeam}</span>
+											<TeamFlag src={getCountryFlagUrl(selectedMatch.awayTeamCode)} alt={selectedMatch.awayTeam} className="size-5 shrink-0 sm:size-6"/>
 										</label>
 
 										<input
