@@ -58,11 +58,10 @@ export function ScoringInfoButton() {
 						<div className="mt-5 grid gap-2 text-sm text-muted-foreground">
 							<Rule points={25} text="Placar exato" />
 							<Rule points={18} text="Vencedor e gols do vencedor" />
-							<Rule points={15} text="Vencedor e saldo de gols" />
-							<Rule points={15} text="Empate correto" />
+							<Rule points={15} text="Saldo de gols" />
 							<Rule points={12} text="Vencedor e gols do perdedor" />
-							<Rule points={6} text="Vencedor correto" />
-							<Rule points={3} text="Placar de algum time" />
+							<Rule points={10} text="Vencedor correto" />
+							{/* <Rule points={3} text="Placar de algum time" /> */}
 						</div>
 
 						<p className="mt-5 text-xs leading-5 text-muted-foreground">

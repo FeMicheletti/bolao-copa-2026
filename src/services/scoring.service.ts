@@ -34,17 +34,16 @@ export function calculatePredictionPoints({ predictedHomeScore, predictedAwaySco
 
 	const correctResult = predictedResult === realResult;
 
-	const guessedAnyTeamScore = predictedHomeScore === homeScore || predictedAwayScore === awayScore;
-
 	if (!correctResult) {
-		//* Errou o resultado, mas acertou o placar de um dos times: 3 pontos
-		if (guessedAnyTeamScore) return { points: 3, reason: "Acertou o placar de um time" };
+		//* Errou o resultado, mas acertou o placar de um dos times: 3 pontos REMOVIDO
+		// const guessedAnyTeamScore = predictedHomeScore === homeScore || predictedAwayScore === awayScore;
+		// if (guessedAnyTeamScore) return { points: 3, reason: "Acertou o placar de um time" };
 
 		//* Errou o resultado e não acertou o placar de nenhum dos times: 0 pontos
 		return { points: 0, reason: "Não pontuou" };
 	}
 
-	if (realResult === "DRAW") {
+	if (realResult === "DRAW" && predictedResult === "DRAW") {
 		return { points: 15, reason: "Acertou o empate" };
 	}
 
@@ -62,7 +61,7 @@ export function calculatePredictionPoints({ predictedHomeScore, predictedAwaySco
 	const guessedLoserGoals = winnerSide === "HOME_TEAM" ? predictedAwayScore === awayScore : predictedHomeScore === homeScore;
 	if (guessedLoserGoals) return { points: 12, reason: "Acertou o vencedor e os gols do perdedor" };
 
-	return { points: 6, reason: "Acertou o vencedor" };
+	return { points: 10, reason: "Acertou o vencedor" };
 }
 
 export async function recalculatePoolRanking(poolId: string) {
@@ -168,12 +167,12 @@ export async function recalculatePoolRanking(poolId: string) {
 
 		const correctResults = userPredictions.filter((prediction) =>
 			[
-				"Placar exato",
-				"Acertou o vencedor e os gols do vencedor",
-				"Acertou o vencedor e o saldo de gols",
-				"Acertou o empate",
-				"Acertou o vencedor e os gols do perdedor",
-				"Acertou o vencedor",
+				"Placar exato", // +25
+				"Acertou o vencedor e os gols do vencedor", // +18
+				"Acertou o vencedor e o saldo de gols", // +15
+				"Acertou o empate", // +15
+				"Acertou o vencedor e os gols do perdedor", // +12
+				"Acertou o vencedor", // +10
 				"Não pontuou",
 			].includes(prediction.pointsReason ?? "")).length;
 
