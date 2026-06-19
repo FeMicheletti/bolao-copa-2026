@@ -74,20 +74,22 @@ export function MatchCard({ stage, status, homeTeam, awayTeam, homeFlag = "üè≥Ô
 							{prediction.home} x {prediction.away}
 						</span>
 					</>) : 
-				canPredict ? (
-					<span className="text-primary">Palpite no grupo geral</span> ) : (
-					<span>Sem palpite registrado</span>
-				)}
+				canPredict ? 
+					( <span className="text-primary">Palpite no grupo geral</span> ) : 
+					( <span>Sem palpite registrado</span> )
+				}
 			</div>
 
 			<div className="mt-5 rounded-xl bg-black/20 px-4 py-3 text-sm">
-				{pointsReason ? (
-					<p className={"font-semibold text-primary"}>
-						{points > 0 ? `+${points} ${pointsReason}` : pointsReason}
-					</p>) : canPredict ? (
-					<p className="text-muted-foreground">Clique para fazer seu palpite</p>) : (
-					<p className="text-muted-foreground">Aguardando resultado</p>
-				)}
+				{pointsReason ? 
+					( <p className={"font-semibold text-primary"}> {points > 0 ? `+${points} ${pointsReason}` : pointsReason} </p>)
+				: !canPredict && !pointsReason ?
+					( <p className={"font-semibold text-primary"}> Sem palpite registrado </p> )
+				: canPredict ? 
+					( <p className="text-muted-foreground">Clique para fazer seu palpite</p>) 
+				: 
+					( <p className="text-muted-foreground">Aguardando resultado</p> )
+				}
 			</div>
 		</article>
 	);
