@@ -42,6 +42,8 @@ type PoolDetailsClientProps = {
 
 type ActiveTab = "matches" | "ranking";
 
+type MatchFilter = "toPredict" | "predicted" | "closed";
+
 export function PoolDetailsClient({ poolId, userName }: PoolDetailsClientProps) {
 	const [activeTab, setActiveTab] = useState<ActiveTab>("matches");
 
@@ -60,6 +62,8 @@ export function PoolDetailsClient({ poolId, userName }: PoolDetailsClientProps) 
 
 	const [matchPredictions, setMatchPredictions] = useState<MatchPrediction[]>([]);
 	const [isLoadingPredictions, setIsLoadingPredictions] = useState(false);
+
+	const [matchFilter, setMatchFilter] = useState<MatchFilter>("toPredict");
 
 	async function loadPoolData() {
 		setError("");
@@ -85,9 +89,23 @@ export function PoolDetailsClient({ poolId, userName }: PoolDetailsClientProps) 
 		loadPoolData();
 	}, [poolId]);
 
-	const nextMatches = useMemo(() => {
-		return matches.filter((match) => match.canPredict);
+	const toPredictMatches = useMemo(() => {
+		return matches.filter((match) => match.canPredict && !match.prediction);
 	}, [matches]);
+
+	const predictedMatches = useMemo(() => {
+		return matches.filter((match) => match.canPredict && match.prediction);
+	}, [matches]);
+
+	const closedMatches = useMemo(() => {
+		return matches.filter((match) => !match.canPredict);
+	}, [matches]);
+
+	const visibleMatches = useMemo(() => {
+		if (matchFilter === "toPredict") return toPredictMatches;
+		if (matchFilter === "predicted") return predictedMatches;
+		return closedMatches;
+	}, [matchFilter, toPredictMatches, predictedMatches, closedMatches]);
 
 	async function openMatch(match: PoolMatch) {
 		setSelectedMatch(match);
@@ -240,7 +258,7 @@ export function PoolDetailsClient({ poolId, userName }: PoolDetailsClientProps) 
 				</div>
 
 				<div className="glass-panel rounded-2xl p-5">
-					<p className="neon-text text-3xl font-black">{nextMatches.length}</p>
+					<p className="neon-text text-3xl font-black">{toPredictMatches.length}</p>
 					<p className="mt-1 text-sm text-muted-foreground">
 						Abertos para palpite
 					</p>
@@ -287,33 +305,90 @@ export function PoolDetailsClient({ poolId, userName }: PoolDetailsClientProps) 
 			</div>
 
 			{activeTab === "matches" ? (
-				<div className="grid min-w-0 max-w-full gap-4 lg:grid-cols-2">
-					{matches.length === 0 ? (
-						<div className="glass-panel rounded-3xl p-8 text-center lg:col-span-2">
-							<p className="font-bold">Nenhum jogo sincronizado ainda.</p>
-							<p className="mt-2 text-sm text-muted-foreground">
-								Rode o cron de sincronização para carregar os jogos.
-							</p>
-						</div>) : 
-					(matches.map((match) => (
-						<button key={match.id} type="button" onClick={() => openMatch(match)} className="min-w-0 max-w-full text-left cursor-pointer">
-							<MatchCard
-								stage="Copa 2026"
-								status={match.status}
-								homeTeam={match.homeTeam}
-								awayTeam={match.awayTeam}
-								homeFlag={getCountryFlagUrl(match.homeTeamCode)}
-								awayFlag={getCountryFlagUrl(match.awayTeamCode)}
-								homeScore={match.result.home}
-								awayScore={match.result.away}
-								prediction={match.prediction}
-								points={match.points}
-								pointsReason={match.pointsReason}
-								canPredict={match.canPredict} />
-						</button>))
-					)}
-				</div>) : 
-				(<div className="grid gap-3">
+				<div className="grid min-w-0 max-w-full gap-4">
+					<div className="grid grid-cols-3 gap-2 rounded-2xl bg-white/5 p-1">
+						<button
+							type="button"
+							onClick={() => setMatchFilter("toPredict")}
+							className={`min-w-0 rounded-xl px-2 py-2 text-xs font-bold transition sm:text-sm ${
+								matchFilter === "toPredict" ? "bg-primary text-primary-foreground shadow-[0_0_24px_rgba(176,38,255,0.25)]" : "text-muted-foreground hover:text-foreground"
+							}`}>
+							<span className="block truncate">A palpitar</span>
+							<span className="mt-0.5 block text-[10px] opacity-80 sm:text-xs">
+							{toPredictMatches.length}
+							</span>
+						</button>
+
+						<button
+							type="button"
+							onClick={() => setMatchFilter("predicted")}
+							className={`min-w-0 rounded-xl px-2 py-2 text-xs font-bold transition sm:text-sm ${
+								matchFilter === "predicted" ? "bg-primary text-primary-foreground shadow-[0_0_24px_rgba(176,38,255,0.25)]" : "text-muted-foreground hover:text-foreground"
+							}`}>
+							<span className="block truncate">Meus palpites</span>
+							<span className="mt-0.5 block text-[10px] opacity-80 sm:text-xs">
+							{predictedMatches.length}
+							</span>
+						</button>
+
+						<button
+							type="button"
+							onClick={() => setMatchFilter("closed")}
+							className={`min-w-0 rounded-xl px-2 py-2 text-xs font-bold transition sm:text-sm ${
+								matchFilter === "closed" ? "bg-primary text-primary-foreground shadow-[0_0_24px_rgba(176,38,255,0.25)]" : "text-muted-foreground hover:text-foreground"
+							}`}>
+							<span className="block truncate">Finalizados</span>
+							<span className="mt-0.5 block text-[10px] opacity-80 sm:text-xs">
+							{closedMatches.length}
+							</span>
+						</button>
+					</div>
+
+					<div className="grid min-w-0 max-w-full gap-4 lg:grid-cols-2">
+						{matches.length === 0 ? (
+							<div className="glass-panel rounded-3xl p-8 text-center lg:col-span-2">
+								<p className="font-bold">Nenhum jogo sincronizado ainda.</p>
+								<p className="mt-2 text-sm text-muted-foreground">
+									Rode o cron de sincronização para carregar os jogos.
+								</p>
+							</div>
+						) : visibleMatches.length === 0 ? (
+							<div className="glass-panel rounded-3xl p-8 text-center lg:col-span-2">
+								<p className="font-bold">
+									{matchFilter === "toPredict" && "Nenhum jogo pendente para palpitar."}
+									{matchFilter === "predicted" && "Você ainda não fez nenhum palpite aberto."}
+									{matchFilter === "closed" && "Nenhum jogo finalizado ainda."}
+								</p>
+
+								<p className="mt-2 text-sm text-muted-foreground">
+									{matchFilter === "toPredict" && "Quando houver jogos abertos sem palpite, eles aparecem aqui."}
+									{matchFilter === "predicted" && "Os jogos que você já palpitou e ainda podem ser editados aparecem aqui."}
+									{matchFilter === "closed" && "Quando os jogos começarem ou terminarem, eles aparecem aqui."}
+								</p>
+							</div>
+						) : (
+							visibleMatches.map((match) => (
+								<button key={match.id} type="button" onClick={() => openMatch(match)} className="min-w-0 max-w-full text-left cursor-pointer">
+									<MatchCard
+									stage="Copa 2026"
+									status={match.status}
+									homeTeam={match.homeTeam}
+									awayTeam={match.awayTeam}
+									homeFlag={getCountryFlagUrl(match.homeTeamCode)}
+									awayFlag={getCountryFlagUrl(match.awayTeamCode)}
+									homeScore={match.result.home}
+									awayScore={match.result.away}
+									prediction={match.prediction}
+									points={match.points}
+									pointsReason={match.pointsReason}
+									canPredict={match.canPredict}/>
+								</button>
+							))
+						)}
+					</div>
+				</div>
+			) : (
+				<div className="grid gap-3">
 					{ranking.length === 0 ? (
 						<div className="glass-panel rounded-3xl p-8 text-center">
 							<p className="font-bold">Ranking vazio</p>
